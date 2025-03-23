@@ -1,0 +1,353 @@
+
+*{
+  font-family: 'Poppins',sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+:root{
+  --body-color: #E4E9F7;
+  --sidebar-color: #FFF;
+  --primary-color:  #695CFE;
+  --primary-color-light:  #56F5FF;
+  --toggle-color:#DDD;
+  --text-color:#130b0b;
+
+  // ===== trasition
+  --tran-02:all 0.2s ease;
+  --tran-03:all 0.3s ease;
+  --tran-04:all 0.4s ease;
+  --tran-05:all 0.5s ease;
+}
+
+.dark-mode {
+  // background: red;
+  --body-color: #18191A;
+  --sidebar-color: #242526;
+  --primary-color: #3A3B3C;
+  --primary-color-light: #3A3B3C;
+  --toggle-color: #FFF;
+  --text-color: #CCC;
+
+}
+.right {
+
+  width: 100hh;
+  height: 100vh;
+  
+}
+
+body{
+  float: right;
+  height: 100%;
+  width: 82%;
+  background: var(--body-color);
+  transition: var(--tran-04);
+  color: var(--text-color)
+}
+
+
+header .image-text .header-text{
+  display: flex;
+  flex-direction: column;
+}
+
+.header-text .profession {
+  margin-top: -2px;
+}
+  .search-box input{
+    height: 100%;
+    width: 100%;
+    background: var(--primary-color-light);
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    color: var(--text-color)
+  }
+  
+// Sidebar
+
+  .sidebar {
+    height: 100vh;
+    transition: var(--tran-04);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 20%;
+    padding: 10px 14px;
+    background: var(--sidebar-color);
+  }
+
+
+
+  .sidebar li{
+    height: 50px;
+    margin-top: 10px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .sidebar li .icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    font-size: 20px;
+  }
+
+  .sidebar li .text{
+    color: var(--text-color);
+  }
+
+  .sidebar .imge-text img{
+    width: 40px;
+    border-radius: 6px;
+  }
+  
+  .sidebar header  .image-text {
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    
+  }
+
+  .sidebar .text{
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-color)
+  }
+
+  .sidebar .image{
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .sidebar header{
+    position: relative;;
+  }
+  .sidebar .search-box{
+    background: var(--primary-color-light);
+  }
+  
+  .sidebar header .toggle {
+    position: absolute;
+    top: 50%;
+    right: -25px;
+    transform: translateY(-50%);
+    height: 25px;
+    width: 25px;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--sidebar-color);
+    font-size: 22px;
+  }
+
+  .sidebar li a{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: var(--tran-04);
+  }
+
+
+  .sidebar li a:hover{
+    background: var(--primary-color);
+    
+  }
+
+  .sidebar li a:hover .icon,
+  .sidebar li a:hover .text{
+    color: var(--sidebar-color);
+    transition: var(--tran-02);
+
+  }
+
+  .sidebar .menu-bar{
+    height: calc(100% - 100px);
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .menu-bar .mode{
+    background: var(--primary-color-light);
+  }
+
+  .menu-bar .mode i{
+    position: absolute;
+  }
+
+  .menu-bar .mode .moon-sun{
+    height: 50px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-bar .mode i.sun{
+    opacity: 0;
+  }
+
+  .menu-bar .mode .toggle-switch{
+    display: flex;
+    justify-items: center;
+    height: 100%;
+    min-width: 60px;
+  }
+
+  .toggle-switch .switch {
+    position: relative;
+    height: 22px;
+    top: 5px;
+    width: 44px;
+    border-radius: 25px;
+    background: var(--toggle-color);
+    cursor: pointer;
+  }
+
+  .switch::before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    top:25%;
+    left: 5px;
+    transform: translateY(-50%);
+    background: var(--sidebar-color);
+    cursor: pointer;
+    transform: var(--tran-03);
+  }
+
+ 
+  .dark .switch::before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    top:25%;
+    left: 25px;
+    transform: translateY(-50%);
+    // background: var(--sidebar-color);
+    cursor: pointer;
+    transform: var(--tran-03);
+  }
+
+  /* StocksTable.css */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+
+.live-dark-mode {
+  background-color: #3A3B3C;;
+  color: #CCC;
+
+}
+
+.live-light-mode {
+  background-color: #E4E9F7;
+  color: #18191A;
+
+}
+
+/* CSS for the top panel */
+.top-panel {
+  display: flex;
+  justify-content: space-between; /* Align items to left and right */
+  align-items: center; /* Vertically center items */
+  padding: 10px; /* Add some padding */
+  background-color: var(--primary-color-light); /* Example background color */
+  border-bottom: 1px solid #ccc; /* Optional border */
+  height: 50px; /* Adjust height as needed */
+  width: 100%; /* Make it full width */
+}
+
+.top-panel-left {
+  /* Style for the left content */
+  margin-left: 40px; /* Add some left margin */
+}
+
+.top-panel-right {
+  /* Style for the right content */
+  margin-right: 10px; /* Add some right margin */
+}
+
+
+.app {
+    display: flex; /*Enable Flexbox for layout*/
+    min-height: 100vh; /*Ensure full viewport height*/
+    flex-direction: column; /*Stack elements vertically*/
+}
+
+.app-content {
+    flex: 1; /*Allow content to take up available space*/
+    display: flex; /*Enable Flexbox for inner layout*/
+}
+
+.right { /*Style for the main content area*/
+    flex: 1; /*Allow main content to expand*/
+    overflow-y: auto; /*Enable vertical scroll if content overflows*/
+}
+
+
+/* CSS for the modal */
+.modal-main {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 20% auto; /* 15% from the top and centered */
+  margin-left: 30%;
+  padding: 50px;
+  left: 100px;
+  border: 3px solid #888;
+  width: 50%; /* Could be more or less */
+  position: fixed; /* For close button positioning */
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}

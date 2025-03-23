@@ -1,0 +1,76 @@
+StocksTable.css
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+ 
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+
+  .fixedBottom {
+    position: "fixed";
+    bottom: 0;
+    left: 0;
+    right: 0;
+    float: "center";
+    padding: "10px";
+  }
+
+  .page-size-dropdown {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: lightgray;
+    padding: 10px; 
+  }
+
+  .pagination-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 40px;
+    display: flex; /* Enable flexbox */
+    justify-content: center; /* Center buttons horizontally */
+  }
+
+  .pagination-selector {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 20px;
+    padding-right: 40px;
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+  }
+
+  .details-back {
+    position: fixed;
+    bottom: 0;
+ 
+    padding: 10px;
+    padding-left: 20px;
+   
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+  }
+
+  .body_dark {
+    background-color: #3A3B3C;;
+    color: #CCC;
+    te
+  
+  }
+
