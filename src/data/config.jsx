@@ -1,2 +1,2 @@
-const local = "http://localhost:8000/";
+const local = "https://tradezen.up.railway.app";
 export default ServerURL = local;
