@@ -3,9 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import ServerURL from "./config";
 
 const fetchStockDetails = async ({ id }) => {
-  const response = await axios.get(
-    `http://${ServerURL}/stocks/companies/${id}/`
-  );
+  const response = await axios.get(`${ServerURL}/stocks/companies/${id}/`);
   return response.data;
 };
 

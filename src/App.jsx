@@ -7,6 +7,7 @@ import "./styles/Styles.scss";
 import { SiReactrouter } from "react-icons/si";
 import { MdRoundaboutLeft } from "react-icons/md";
 import axios from "axios";
+// import { ServerURL } from "./data/config";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { DarkModeProvider } from "./DarkModeContext";
@@ -23,9 +24,9 @@ import Login from "./pages/Login";
 import StockDetails from "./pages/Home/StockDetails";
 import LiveTrading from "./pages/LiveTrading";
 // import { useDarkMode } from "./DarkModeContext";
-const ServerURL = "http://localhost:8000/";
 
 function App() {
+  const ServerURL = "https://tradezen.up.railway.app";
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [lastLogin, setLastLogin] = useState("20th Jan, 2025");
@@ -84,13 +85,13 @@ function App() {
   useEffect(() => {
     console.log("Inside Effect");
     try {
-      console.log("****** URL");
-      console.log(`${ServerURL}/users/login/`);
+      // console.log("****** URL");
+      // console.log(`${ServerURL}/users/login/`);
 
-      const response = axios.post(`${ServerURL}/users/login/`, {
-        email,
-        password,
-      });
+      // const response = axios.post(`${ServerURL}/users/login/`, {
+      //   email,
+      //   password,
+      // });
       // The response.data will contain the data from the server (e.g., token)
       const token = response.data.access;
       localStorage.setItem("token", token); // Store the token
