@@ -1,6 +1,6 @@
 import "../styles/Styles.scss";
 import { IoIosArrowForward } from "react-icons/io";
-import logo from "./logo.jpg";
+import logo from "./logo2.png";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import { FcSalesPerformance } from "react-icons/fc";

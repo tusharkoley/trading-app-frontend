@@ -14,10 +14,7 @@ function LiveTrading() {
       }
     >
       <h1>
-        LIVE Trading-1 - LIVE Trading - LIVE Trading - LIVE Trading - LIVE
-        Trading - LIVE Trading - LIVE Trading - LIVE Trading - LIVE Trading -
-        culpa incidunt ab facere a modi provident optio nobis, minus sed enim
-        sint dolores eos ipsam!
+        Thanks for visiting the Live Trading page! This is a sample page to
       </h1>
       <h1>
         LIVE Trading0 - LIVE Trading - LIVE Trading - LIVE Trading - LIVE
