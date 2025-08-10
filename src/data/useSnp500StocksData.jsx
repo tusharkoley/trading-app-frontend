@@ -1,19 +1,15 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-
-const hostname = "localhost";
-const port = 8000;
+import ServerURL from "./config";
 
 const fetchSnp500Stocks = async () => {
-  const response = await axios.get(
-    `http://${hostname}:${port}/stocks/companies/`
-  );
+  const response = await axios.get(`http://${ServerURL}/stocks/companies/`);
   return response.data;
 };
 
 const fetchPricebyTicker = async (ticker) => {
   const response = await axios.get(
-    `http://${hostname}:${port}/stocks/company/${ticker}/prices/`
+    `http://${ServerURL}/stocks/company/${ticker}/prices/`
   );
 
   console.log(response.data);

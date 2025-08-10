@@ -1,12 +1,10 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-
-const hostname = "localhost";
-const port = 8000;
+import ServerURL from "./config";
 
 const fetchStockDetails = async ({ id }) => {
   const response = await axios.get(
-    `http://${hostname}:${port}/stocks/companies/${id}/`
+    `http://${ServerURL}/stocks/companies/${id}/`
   );
   return response.data;
 };
