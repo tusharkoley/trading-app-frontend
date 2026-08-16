@@ -6,7 +6,6 @@ function StockChart({ stockData, tikcer, mode }) {
   const [chartData, setChartData] = useState([]);
   //   const theme = useTheme();
 
-  console.log("**Stock Chart Mode", mode);
 
   const themeColors = {
     dark: {

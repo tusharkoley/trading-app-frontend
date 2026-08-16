@@ -23,7 +23,19 @@ import Login from "./pages/Login";
 
 import StockDetails from "./pages/Home/StockDetails";
 import LiveTrading from "./pages/LiveTrading";
+import IndustryRanking from "./pages/IndustryRanking";
 // import { useDarkMode } from "./DarkModeContext";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      gcTime: 30 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    },
+  },
+});
 
 function App() {
   const ServerURL = "https://tradezen.up.railway.app";
@@ -32,7 +44,6 @@ function App() {
   const [lastLogin, setLastLogin] = useState("20th Jan, 2025");
   const [email, setEmail] = useState("");
 
-  const queryClient = new QueryClient();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
@@ -192,6 +203,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/stockDetails/:id" element={<StockDetails />} />
                 <Route path="/trading" element={<LiveTrading />} />
+                <Route path="/industry-ranking" element={<IndustryRanking />} />
                 <Route path="/login" element={<Login />} />
               </Routes>
             </Router>

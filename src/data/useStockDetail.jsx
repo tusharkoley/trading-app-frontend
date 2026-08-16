@@ -11,12 +11,13 @@ function useStockDetail({ id }) {
   const {
     isLoading,
     error,
-    data: stock = [],
+    data: stock = {},
   } = useQuery({
-    queryKey: ["fetchStockDetails"],
-    queryFn: () => fetchStockDetails((id = { id })),
-    initialData: [],
-    cacheTime: 5 * 60 * 1000,
+    queryKey: ["fetchStockDetails", id],
+    queryFn: () => fetchStockDetails({ id }),
+    enabled: !!id,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
   });
   return { isLoading, error, stock };
 }

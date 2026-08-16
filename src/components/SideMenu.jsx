@@ -10,6 +10,8 @@ import { MdOutlineLogout } from "react-icons/md";
 import { FcLike } from "react-icons/fc";
 import { MdDarkMode } from "react-icons/md";
 import { MdOutlineLightMode } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 import { useDarkMode } from "../DarkModeContext";
 
@@ -33,13 +35,22 @@ function SidHeader() {
   );
 }
 
-const NavLink = ({ icon: Icon, text, href }) => {
-  return (
-    <li className={`nav-link`}>
-      <a href={href}>
+const NavLink = ({ icon: Icon, text, to }) => {
+  if (!to) {
+    return (
+      <li className="nav-link">
         {Icon && <Icon className="icon" />}
         <span className="text nav-text">{text}</span>
-      </a>
+      </li>
+    );
+  }
+
+  return (
+    <li className={`nav-link`}>
+      <Link to={to}>
+        {Icon && <Icon className="icon" />}
+        <span className="text nav-text">{text}</span>
+      </Link>
     </li>
   );
 };
@@ -47,7 +58,7 @@ const NavLink = ({ icon: Icon, text, href }) => {
 function BottomContent({ isDarkMode, toggleTheme }) {
   return (
     <div className="bottom-content">
-      <NavLink icon={MdOutlineLogout} text={"Logout"} link={"#"} />
+      <NavLink icon={MdOutlineLogout} text={"Logout"} />
 
       <li className="mode">
         <div className="moon-sun">
@@ -60,12 +71,15 @@ function BottomContent({ isDarkMode, toggleTheme }) {
         <span className="text mode-text">
           {isDarkMode ? "Light Mode" : "Dark Mode"}
         </span>
-        <div
-          className={`toggle-switch ${isDarkMode ? "dark" : ""}`}
+        <button
+          type="button"
+          className={`toggle-switch ${isDarkMode ? "is-dark" : ""}`}
           onClick={toggleTheme}
+          aria-label="Toggle dark mode"
+          aria-pressed={isDarkMode}
         >
-          <span className={`switch ${isDarkMode ? "dark" : ""}`}></span>
-        </div>
+          <span className="switch"></span>
+        </button>
       </li>
     </div>
   );
@@ -77,20 +91,26 @@ function SideMenuBar({ isDarkMode, toggleTheme }) {
       <div className="menu">
         <ul className="menu-link">
           <li className="search-box">
-            <a href="#">
+            <div>
               <IoSearch className="icon" />
               <span>
                 <input type="search" placeholder="Search..." />
               </span>
-            </a>
+            </div>
           </li>
 
-          <NavLink icon={IoHomeOutline} text={"Home"} href="/" />
+          <NavLink icon={IoHomeOutline} text={"Home"} to="/" />
           <NavLink
             icon={FcSalesPerformance}
             text={"Live Trading"}
-            href="/trading"
+            to="/trading"
           />
+          <NavLink
+            icon={SiSimpleanalytics}
+            text={"Industry Ranking"}
+            to="/industry-ranking"
+          />
+          <NavLink icon={FaRegEdit} text={"Company Admin"} to="/company-admin" />
           <NavLink icon={IoIosNotificationsOutline} text={"Notification"} />
           <NavLink icon={SiSimpleanalytics} text={"Analytics"} />
           <NavLink icon={FcLike} text={"Likes"} />
@@ -104,13 +124,6 @@ function SideMenuBar({ isDarkMode, toggleTheme }) {
 
 function SideMenu() {
   const { isDarkMode, toggleTheme } = useDarkMode();
-  const htmlElement = document.querySelector("html");
-
-  if (isDarkMode) {
-    htmlElement.setAttribute("data-bs-theme", "dark");
-  } else {
-    htmlElement.removeAttribute("data-bs-theme");
-  }
 
   return (
     <nav className={`sidebar ${isDarkMode ? "dark-mode" : ""}`}>

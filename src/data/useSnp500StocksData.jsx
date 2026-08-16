@@ -24,16 +24,54 @@ const fetchPricebyTicker = async (ticker) => {
   // }
   // return prices;
 };
+
+const fetchLatestTechnicals = async (rsMin = null) => {
+  const response = await axios.get(`${ServerURL}/stocks/technicals/latest/`, {
+    params: rsMin !== null ? { rs_min: rsMin } : {},
+  });
+  return response.data;
+};
+
+const fetchLatestPrices = async () => {
+  const response = await axios.get(`${ServerURL}/stocks/prices/latest/`);
+  return response.data;
+};
+
+const fetchLatestTechnicalByTicker = async (ticker) => {
+  if (!ticker) {
+    return {};
+  }
+
+  const response = await axios.get(
+    `${ServerURL}/stocks/company/${ticker}/technicals/latest/`
+  );
+  return response.data;
+};
+
+const fetchIndustryPerformanceRankings = async ({ months, country }) => {
+  const response = await axios.get(`${ServerURL}/stocks/industries/performance/`, {
+    params: {
+      months,
+      ...(country ? { country } : {}),
+    },
+  });
+
+  return response.data;
+};
+
 export const usePriceDatabyTicker = (ticker) => {
   const {
     isLoading,
     error,
     data: stocks = [],
   } = useQuery({
-    queryKey: ["fetchProcesbyTicker"],
+    queryKey: ["fetchPricesByTicker", ticker],
     queryFn: () => fetchPricebyTicker(ticker),
+    enabled: !!ticker,
     initialData: [],
-    cacheTime: 5 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   return { isLoading, error, stocks };
 };
@@ -47,9 +85,92 @@ export const useSnp500StocksData = () => {
     queryKey: ["fetchSnp500Stocks"],
     queryFn: () => fetchSnp500Stocks(),
     initialData: [],
-    cacheTime: 5 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   return { isLoading, error, stocks };
+};
+
+export const useLatestTechnicals = ({ rsMin = null } = {}) => {
+  const {
+    isLoading,
+    error,
+    data: technicals = [],
+  } = useQuery({
+    queryKey: ["fetchLatestTechnicals", rsMin],
+    queryFn: () => fetchLatestTechnicals(rsMin),
+    initialData: [],
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  return { isLoading, error, technicals };
+};
+
+export const useLatestTechnicalByTicker = (ticker) => {
+  const {
+    isLoading,
+    error,
+    data: technical = {},
+  } = useQuery({
+    queryKey: ["fetchLatestTechnicalByTicker", ticker],
+    queryFn: () => fetchLatestTechnicalByTicker(ticker),
+    enabled: !!ticker,
+    initialData: {},
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  return { isLoading, error, technical };
+};
+
+export const useLatestPrices = () => {
+  const {
+    isLoading,
+    error,
+    data: prices = [],
+  } = useQuery({
+    queryKey: ["fetchLatestPrices"],
+    queryFn: () => fetchLatestPrices(),
+    initialData: [],
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  return { isLoading, error, prices };
+};
+
+export const useIndustryPerformanceRankings = ({ months = 3, country = "" } = {}) => {
+  const {
+    isLoading,
+    error,
+    data = {
+      rankings: [],
+      top_industry: null,
+      available_countries: [],
+      as_of_date: null,
+      lookback_date: null,
+    },
+  } = useQuery({
+    queryKey: ["industryPerformanceRankings", months, country],
+    queryFn: () => fetchIndustryPerformanceRankings({ months, country }),
+    initialData: {
+      rankings: [],
+      top_industry: null,
+      available_countries: [],
+      as_of_date: null,
+      lookback_date: null,
+    },
+    staleTime: 10 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  return { isLoading, error, data };
 };
 
 // export default useSnp500StocksData;
