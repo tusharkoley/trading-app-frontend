@@ -1,13 +1,10 @@
 import { useState } from "react";
 
 import SideMenu from "./components/SideMenu";
-import { data, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import "./styles/Styles.scss";
-import { SiReactrouter } from "react-icons/si";
-import { MdRoundaboutLeft } from "react-icons/md";
 import axios from "axios";
-// import { ServerURL } from "./data/config";
+import ServerURL from "./data/config";
 
 import { Routes, Route } from "react-router-dom";
 import { DarkModeProvider } from "./DarkModeContext";
@@ -15,7 +12,6 @@ import { DarkModeProvider } from "./DarkModeContext";
 import {
   QueryClient,
   QueryClientProvider,
-  useQuery,
 } from "@tanstack/react-query";
 
 import Home from "./pages/Home";
@@ -38,7 +34,6 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  const ServerURL = "https://tradezen.up.railway.app";
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [lastLogin, setLastLogin] = useState("20th Jan, 2025");
@@ -54,7 +49,8 @@ function App() {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    setEmail(event.target.email.value);
+    const emailValue = event.target.email.value;
+    setEmail(emailValue);
     const password = event.target.password.value;
 
     try {
@@ -62,7 +58,7 @@ function App() {
       console.log(`${ServerURL}/users/login/`);
 
       const response = await axios.post(`${ServerURL}/users/login/`, {
-        email,
+        email: emailValue,
         password,
       });
       // The response.data will contain the data from the server (e.g., token)
@@ -91,37 +87,13 @@ function App() {
     }
   };
 
-  console.log(isLoginModalOpen);
-
   useEffect(() => {
-    console.log("Inside Effect");
-    try {
-      // console.log("****** URL");
-      // console.log(`${ServerURL}/users/login/`);
-
-      // const response = axios.post(`${ServerURL}/users/login/`, {
-      //   email,
-      //   password,
-      // });
-      // The response.data will contain the data from the server (e.g., token)
-      const token = response.data.access;
-      localStorage.setItem("token", token); // Store the token
+    const token = localStorage.getItem("token");
+    if (token) {
       setIsLoggedIn(true);
-      setIsLoginModalOpen(false);
       setLoginError(null);
-    } catch (error) {
-      console.error("Login error:", error);
-
-      if (error.response) {
-        setLoginError(error.response.data.message || error.response.statusText); // Get error message from server
-      } else if (error.request) {
-        setLoginError("No response from server");
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        setLoginError(error.message);
-      }
     }
-  });
+  }, []);
 
   return (
     <DarkModeProvider>
