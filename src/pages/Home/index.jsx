@@ -25,7 +25,11 @@ function Home() {
     isLoading: technicalsLoading,
     error: technicalsError,
   } = useLatestTechnicals();
-  const { prices: latestPrices } = useLatestPrices();
+  const {
+    prices: latestPrices,
+    error: pricesError,
+    isLoading: pricesLoading,
+  } = useLatestPrices();
 
   const stocksList = Array.isArray(stocks) ? stocks : [];
   const technicalsList = Array.isArray(technicals) ? technicals : [];
@@ -374,6 +378,19 @@ function Home() {
         </div>
       )}
 
+      {pricesError && (
+        <div className="alert alert-warning" role="alert">
+          Latest price feed is currently unavailable from the API. Company rows
+          are still shown, but Latest Close may appear as N/A.
+        </div>
+      )}
+
+      {!pricesLoading && latestPricesList.length === 0 && !pricesError && (
+        <div className="alert alert-info" role="alert">
+          Latest price feed returned no records.
+        </div>
+      )}
+
       {showHighRSOnly &&
         !technicalsLoading &&
         !technicalsError &&
@@ -391,7 +408,7 @@ function Home() {
 
       {error && (
         <div className="alert alert-danger" role="alert">
-          Unable to load companies from the local backend right now.
+          Unable to load companies from the backend right now.
         </div>
       )}
 
