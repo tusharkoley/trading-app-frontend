@@ -9,7 +9,7 @@ import { MdRoundaboutLeft } from "react-icons/md";
 import axios from "axios";
 // import { ServerURL } from "./data/config";
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { DarkModeProvider } from "./DarkModeContext";
 
 import {
@@ -198,15 +198,13 @@ function App() {
           </div>
           <SideMenu />
           <div className={`container overflow-auto right`}>
-            <Router>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/stockDetails/:id" element={<StockDetails />} />
-                <Route path="/trading" element={<LiveTrading />} />
-                <Route path="/industry-ranking" element={<IndustryRanking />} />
-                <Route path="/login" element={<Login />} />
-              </Routes>
-            </Router>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/stockDetails/:id" element={<StockDetails />} />
+              <Route path="/trading" element={<LiveTrading />} />
+              <Route path="/industry-ranking" element={<IndustryRanking />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
           </div>
         </div>
       </QueryClientProvider>
