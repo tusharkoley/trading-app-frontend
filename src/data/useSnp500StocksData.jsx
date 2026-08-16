@@ -68,7 +68,7 @@ export const usePriceDatabyTicker = (ticker) => {
     queryKey: ["fetchPricesByTicker", ticker],
     queryFn: () => fetchPricebyTicker(ticker),
     enabled: !!ticker,
-    initialData: [],
+    placeholderData: [],
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     refetchOnWindowFocus: false,
@@ -84,7 +84,7 @@ export const useSnp500StocksData = () => {
   } = useQuery({
     queryKey: ["fetchSnp500Stocks"],
     queryFn: () => fetchSnp500Stocks(),
-    initialData: [],
+    placeholderData: [],
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     refetchOnWindowFocus: false,
@@ -100,7 +100,7 @@ export const useLatestTechnicals = ({ rsMin = null } = {}) => {
   } = useQuery({
     queryKey: ["fetchLatestTechnicals", rsMin],
     queryFn: () => fetchLatestTechnicals(rsMin),
-    initialData: [],
+    placeholderData: [],
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     refetchOnWindowFocus: false,
@@ -118,7 +118,7 @@ export const useLatestTechnicalByTicker = (ticker) => {
     queryKey: ["fetchLatestTechnicalByTicker", ticker],
     queryFn: () => fetchLatestTechnicalByTicker(ticker),
     enabled: !!ticker,
-    initialData: {},
+    placeholderData: {},
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     refetchOnWindowFocus: false,
@@ -135,7 +135,7 @@ export const useLatestPrices = () => {
   } = useQuery({
     queryKey: ["fetchLatestPrices"],
     queryFn: () => fetchLatestPrices(),
-    initialData: [],
+    placeholderData: [],
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     refetchOnWindowFocus: false,
@@ -158,7 +158,7 @@ export const useIndustryPerformanceRankings = ({ months = 3, country = "" } = {}
   } = useQuery({
     queryKey: ["industryPerformanceRankings", months, country],
     queryFn: () => fetchIndustryPerformanceRankings({ months, country }),
-    initialData: {
+    placeholderData: {
       rankings: [],
       top_industry: null,
       available_countries: [],
