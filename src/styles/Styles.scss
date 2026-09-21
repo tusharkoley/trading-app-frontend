@@ -8,6 +8,7 @@
 
 
 :root{
+  --sidebar-width: clamp(260px, 20vw, 320px);
   --body-color: #E4E9F7;
   --sidebar-color: #FFF;
   --primary-color:  #695CFE;
@@ -32,17 +33,9 @@
   --text-color: #CCC;
 
 }
-.right {
-
-  width: 100hh;
-  height: 100vh;
-  
-}
-
 body{
-  float: right;
-  height: 100%;
-  width: 82%;
+  min-height: 100vh;
+  width: 100%;
   background: var(--body-color);
   transition: var(--tran-04);
   color: var(--text-color)
@@ -76,7 +69,8 @@ header .image-text .header-text{
     top: 0;
     left: 0;
     height: 100%;
-    width: 20%;
+    width: var(--sidebar-width);
+    overflow-y: auto;
     padding: 10px 14px;
     background: var(--sidebar-color);
   }
@@ -308,6 +302,8 @@ th {
     display: flex; /*Enable Flexbox for layout*/
     min-height: 100vh; /*Ensure full viewport height*/
     flex-direction: column; /*Stack elements vertically*/
+    margin-left: var(--sidebar-width);
+    min-width: 0;
 }
 
 .app-content {
