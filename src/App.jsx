@@ -6,7 +6,7 @@ import "./styles/Styles.scss";
 import axios from "axios";
 import ServerURL from "./data/config";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { DarkModeProvider } from "./DarkModeContext";
 
 import {
@@ -16,6 +16,7 @@ import {
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 import StockDetails from "./pages/Home/StockDetails";
 import LiveTrading from "./pages/LiveTrading";
@@ -36,14 +37,16 @@ const queryClient = new QueryClient({
 function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [loginError, setLoginError] = useState(null);
-  const [lastLogin, setLastLogin] = useState("20th Jan, 2025");
-  const [email, setEmail] = useState("");
+  const [lastLogin, setLastLogin] = useState(localStorage.getItem("lastLogin") || "");
+  const [email, setEmail] = useState(localStorage.getItem("email") || "");
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
-    setIsLoggedIn(!isLoggedIn);
-    console.log("Logged out");
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    setIsLoggedIn(false);
+    setEmail("");
   };
 
   const handleLogin = async (event) => {
@@ -65,7 +68,10 @@ function App() {
       const token = response.data.access;
       localStorage.setItem("token", token); // Store the token
       setIsLoggedIn(true);
-      setLastLogin(new Date().toLocaleString());
+      const loginTime = new Date().toLocaleString();
+      localStorage.setItem("email", emailValue);
+      localStorage.setItem("lastLogin", loginTime);
+      setLastLogin(loginTime);
       setIsLoginModalOpen(false);
       setLoginError(null);
     } catch (error) {
@@ -74,7 +80,7 @@ function App() {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        setLoginError(error.response.data.message || error.response.statusText); // Get error message from server
+        setLoginError(error.response.data.detail || error.response.data.message || error.response.statusText); // Get error message from server
       } else if (error.request) {
         // The request was made but no response was received
         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -117,13 +123,10 @@ function App() {
                 </>
               ) : (
                 <>
-                  <span>
-                    New user? <a href="/signup">Sign up</a>
-                  </span>
-                  {/* Link to sign-up */}
+                  <Link className="btn btn-link" to="/signup">Sign up</Link>
                   <button
                     className="btn btn-primary"
-                    onClick={() => setIsLoginModalOpen(true)}
+                    onClick={() => { setLoginError(null); setIsLoginModalOpen(true); }}
                   >
                     Login
                   </button>
@@ -172,6 +175,7 @@ function App() {
           <div className={`container overflow-auto right`}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/stockDetails/:id" element={<StockDetails />} />
               <Route path="/trading" element={<LiveTrading />} />
               <Route path="/industry-ranking" element={<IndustryRanking />} />
