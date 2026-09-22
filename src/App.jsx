@@ -17,6 +17,7 @@ import {
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import PasswordReset from "./pages/PasswordReset";
 
 import StockDetails from "./pages/Home/StockDetails";
 import LiveTrading from "./pages/LiveTrading";
@@ -146,7 +147,7 @@ function App() {
                       <b>Login</b>
                     </h2>
                     {loginError && (
-                      <p className="error-message">{loginError}</p>
+                      <p className="error-message" role="alert">{loginError}</p>
                     )}{" "}
                     {/* Display error */}
                     <form onSubmit={handleLogin}>
@@ -154,6 +155,9 @@ function App() {
                         type="email"
                         name="email"
                         placeholder="Email"
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                        autoComplete="email"
                         required
                       />
                       <input
@@ -166,6 +170,13 @@ function App() {
                         Login
                       </button>
                     </form>
+                    <Link
+                      className="mt-3"
+                      to={`/forgot-password?email=${encodeURIComponent(email)}`}
+                      onClick={() => setIsLoginModalOpen(false)}
+                    >
+                      {loginError ? "Trouble signing in? Reset your password" : "Forgot your password?"}
+                    </Link>
                   </div>
                 </div>
               )}
@@ -176,6 +187,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/forgot-password" element={<PasswordReset key="request" />} />
+              <Route path="/reset-password/:uid/:token" element={<PasswordReset key="confirm" />} />
               <Route path="/stockDetails/:id" element={<StockDetails />} />
               <Route path="/trading" element={<LiveTrading />} />
               <Route path="/industry-ranking" element={<IndustryRanking />} />
