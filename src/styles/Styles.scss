@@ -303,6 +303,7 @@ th {
     min-height: 100vh; /*Ensure full viewport height*/
     flex-direction: column; /*Stack elements vertically*/
     margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
     min-width: 0;
 }
 
@@ -314,6 +315,13 @@ th {
 .right { /*Style for the main content area*/
     flex: 1; /*Allow main content to expand*/
     overflow-y: auto; /*Enable vertical scroll if content overflows*/
+}
+
+.stock-details-content {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    margin-inline: 0;
 }
 
 

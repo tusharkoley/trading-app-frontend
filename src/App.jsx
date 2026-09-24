@@ -184,7 +184,7 @@ function App() {
             </div>
           </div>
           <SideMenu />
-          <div className={`${isStockDetailsPage ? "container-fluid" : "container"} overflow-auto right`}>
+          <div className={`${isStockDetailsPage ? "container-fluid stock-details-content" : "container"} overflow-auto right`}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />

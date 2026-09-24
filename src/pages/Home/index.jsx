@@ -35,7 +35,7 @@ function Home() {
   const technicalsList = Array.isArray(technicals) ? technicals : [];
   const latestPricesList = Array.isArray(latestPrices) ? latestPrices : [];
 
-  const [pageSize, setPageSize] = useState(20); // Default page size
+  const [pageSize, setPageSize] = useState(100); // Default page size
   const handlePageSizeChange = (event) => {
     setPageSize(parseInt(event.target.value, 10));
   };
@@ -440,10 +440,9 @@ function Home() {
       </div>
       <div className="pagination-selector">
         <select value={pageSize} onChange={handlePageSizeChange}>
-          <option value={20}>20 per page</option>
-          <option value={30}>30 per page</option>
-          <option value={40}>40 per page</option>
           <option value={50}>50 per page</option>
+          <option value={100}>100 per page</option>
+          <option value={200}>200 per page</option>
         </select>
       </div>
     </div>
