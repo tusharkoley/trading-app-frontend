@@ -115,7 +115,7 @@ function StockDetails() {
 
   if (error) {
     return (
-      <div className="container mt-4">
+      <div className="container-fluid mt-4">
         <div className="alert alert-danger" role="alert">
           Failed to load stock details.
         </div>
@@ -132,7 +132,7 @@ function StockDetails() {
 
   return (
     <div
-      className={`container container-fluid overflow-auto ${
+      className={`container-fluid px-0 overflow-auto ${
         isDarkMode ? "body_dark" : ""
       }`}
     >
@@ -229,7 +229,7 @@ function StockDetails() {
         </div>
       )}
       {!priceLoading && ticker && stocks_prices && (
-        <div className="container overflow-auto">
+        <div className="w-100 overflow-auto">
           <h1> Price Data</h1>
           <StockChart
             stockData={stocks_prices}

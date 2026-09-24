@@ -6,7 +6,7 @@ import "./styles/Styles.scss";
 import axios from "axios";
 import ServerURL from "./data/config";
 
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useMatch } from "react-router-dom";
 import { DarkModeProvider } from "./DarkModeContext";
 
 import {
@@ -36,6 +36,7 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  const isStockDetailsPage = useMatch("/stockDetails/:id");
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [lastLogin, setLastLogin] = useState(localStorage.getItem("lastLogin") || "");
@@ -183,7 +184,7 @@ function App() {
             </div>
           </div>
           <SideMenu />
-          <div className={`container overflow-auto right`}>
+          <div className={`${isStockDetailsPage ? "container-fluid" : "container"} overflow-auto right`}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />
