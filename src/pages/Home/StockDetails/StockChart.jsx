@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import Plot from "react-plotly.js";
 // import { useTheme } from "@mui/material/styles";
 
 function StockChart({ stockData, tikcer, mode }) {
-  const [chartData, setChartData] = useState([]);
+  const [selectedMonths, setSelectedMonths] = useState(1);
   //   const theme = useTheme();
 
 
@@ -24,68 +24,92 @@ function StockChart({ stockData, tikcer, mode }) {
     },
   };
 
-  useEffect(() => {
-    if (stockData && stockData.length > 0) {
-      const processedData = stockData.map((data) => ({
-        x: data.date, // Assuming 'date' is the key for date in your data
-        open: data.open,
-        high: data.high,
-        low: data.low,
-        close: data.close,
-      }));
-      setChartData(processedData);
-    }
+  const sortedData = useMemo(() => {
+    return (stockData || [])
+      .map((row) => ({ ...row, timestamp: new Date(row.date).getTime() }))
+      .filter((row) => Number.isFinite(row.timestamp))
+      .sort((a, b) => a.timestamp - b.timestamp);
   }, [stockData]);
 
-  return (
-    <Plot
-      data={[
-        {
-          type: "candlestick",
-          x: chartData.map((d) => d.x),
-          open: chartData.map((d) => d.open),
-          high: chartData.map((d) => d.high),
-          low: chartData.map((d) => d.low),
-          close: chartData.map((d) => d.close),
-          increasing: {
-            line: { color: themeColors[mode].increasing_line_color },
-          },
-          decreasing: {
-            line: { color: themeColors[mode].decreasing_line_color },
-          },
-        },
-      ]}
-      layout={{
-        title: `Stock Price Chart for ${tikcer}`,
-        width: 1300, // Set width to 100% of the container
-        height: 800, // Adjust height as needed
-        autosize: true, // Allow the chart to resize with the container
-        showlegend: false,
-        plot_bgcolor: themeColors[mode].plot_bgcolor,
-        paper_bgcolor: themeColors[mode].paper_bgcolor,
-        xaxis: {
-          autorange: true,
-          domain: [0, 1],
+  const chartData = useMemo(() => {
+    if (selectedMonths === null || sortedData.length === 0) return sortedData;
 
-          title: {
-            text: "Date",
+    const cutoff = new Date(sortedData[sortedData.length - 1].timestamp);
+    const day = cutoff.getUTCDate();
+    // Clamp month-end dates to a valid day in the target month.
+    cutoff.setUTCDate(1);
+    cutoff.setUTCMonth(cutoff.getUTCMonth() - selectedMonths);
+    const lastDay = new Date(
+      Date.UTC(cutoff.getUTCFullYear(), cutoff.getUTCMonth() + 1, 0)
+    ).getUTCDate();
+    cutoff.setUTCDate(Math.min(day, lastDay));
+    return sortedData.filter((row) => row.timestamp >= cutoff.getTime());
+  }, [sortedData, selectedMonths]);
+
+  return (
+    <div>
+      <div className="d-flex flex-wrap gap-2 mb-3" role="group" aria-label="Chart period">
+        {[["1M", 1], ["3M", 3], ["6M", 6], ["1Y", 12], ["5Y", 60], ["All", null]].map(([label, months]) => (
+          <button
+            key={label}
+            type="button"
+            className={`btn btn-sm ${selectedMonths === months ? "btn-primary" : mode === "dark" ? "btn-outline-light" : "btn-outline-primary"}`}
+            aria-pressed={selectedMonths === months}
+            onClick={() => setSelectedMonths(months)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+      <Plot
+        data={[
+          {
+            type: "candlestick",
+            x: chartData.map((d) => d.date),
+            open: chartData.map((d) => d.open),
+            high: chartData.map((d) => d.high),
+            low: chartData.map((d) => d.low),
+            close: chartData.map((d) => d.close),
+            increasing: {
+              line: { color: themeColors[mode].increasing_line_color },
+            },
+            decreasing: {
+              line: { color: themeColors[mode].decreasing_line_color },
+            },
           },
-          type: "date",
-          rangeslider: {
-            visible: false,
+        ]}
+        layout={{
+          title: `Stock Price Chart for ${tikcer}`,
+          height: 800, // Adjust height as needed
+          autosize: true, // Allow the chart to resize with the container
+          showlegend: false,
+          plot_bgcolor: themeColors[mode].plot_bgcolor,
+          paper_bgcolor: themeColors[mode].paper_bgcolor,
+          xaxis: {
+            autorange: true,
+            domain: [0, 1],
+  
+            title: {
+              text: "Date",
+            },
+            type: "date",
+            rangeslider: {
+              visible: false,
+            },
           },
-        },
-        yaxis: {
-          autorange: true,
-          domain: [0, 1],
-          range: [0, 100],
-          type: "linear",
-        },
-        font: {
-          color: themeColors[mode].font_color,
-        },
-      }}
-    />
+          yaxis: {
+            autorange: true,
+            domain: [0, 1],
+            type: "linear",
+          },
+          font: {
+            color: themeColors[mode].font_color,
+          },
+        }}
+        useResizeHandler
+        style={{ width: "100%" }}
+      />
+    </div>
   );
 }
 
