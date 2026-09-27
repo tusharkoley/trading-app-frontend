@@ -1,0 +1,24 @@
+.stock-chart {
+  width: 100%;
+}
+
+.stock-chart-plot {
+  width: 100%;
+  height: 800px;
+  min-height: 0;
+}
+
+.stock-chart:fullscreen {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.stock-chart:fullscreen .stock-chart-plot {
+  flex: 1;
+  height: auto;
+}

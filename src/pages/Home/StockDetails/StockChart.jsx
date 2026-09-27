@@ -1,10 +1,45 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import Plot from "react-plotly.js";
-// import { useTheme } from "@mui/material/styles";
+import "./StockChart.css";
 
 function StockChart({ stockData, tikcer, mode }) {
-  const [selectedMonths, setSelectedMonths] = useState(1);
-  //   const theme = useTheme();
+  const [selectedMonths, setSelectedMonths] = useState(3);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [fullscreenError, setFullscreenError] = useState("");
+  const [chartSize, setChartSize] = useState({ height: 800 });
+  const containerRef = useRef(null);
+  const plotContainerRef = useRef(null);
+
+  useEffect(() => {
+    const onFullscreenChange = () => {
+      setIsFullscreen(document.fullscreenElement === containerRef.current);
+    };
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+    const observer = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect;
+      if (width > 0 && height > 0) setChartSize({ width, height });
+    });
+    observer.observe(plotContainerRef.current);
+    return () => {
+      document.removeEventListener("fullscreenchange", onFullscreenChange);
+      observer.disconnect();
+    };
+  }, []);
+
+  async function toggleFullscreen() {
+    setFullscreenError("");
+    try {
+      if (document.fullscreenElement === containerRef.current) {
+        await document.exitFullscreen();
+      } else if (containerRef.current.requestFullscreen) {
+        await containerRef.current.requestFullscreen();
+      } else {
+        setFullscreenError("Full screen is not supported by this browser.");
+      }
+    } catch {
+      setFullscreenError("Unable to open full screen. Please try again or use another browser.");
+    }
+  }
 
 
   const themeColors = {
@@ -47,8 +82,9 @@ function StockChart({ stockData, tikcer, mode }) {
   }, [sortedData, selectedMonths]);
 
   return (
-    <div>
-      <div className="d-flex flex-wrap gap-2 mb-3" role="group" aria-label="Chart period">
+    <div ref={containerRef} className="stock-chart" style={{ background: themeColors[mode].paper_bgcolor, color: themeColors[mode].font_color }}>
+      <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+      <div className="d-flex flex-wrap gap-2" role="group" aria-label="Chart period">
         {[["1M", 1], ["3M", 3], ["6M", 6], ["1Y", 12], ["5Y", 60], ["All", null]].map(([label, months]) => (
           <button
             key={label}
@@ -61,6 +97,18 @@ function StockChart({ stockData, tikcer, mode }) {
           </button>
         ))}
       </div>
+        <button
+          type="button"
+          className={`btn btn-sm ms-auto ${mode === "dark" ? "btn-outline-light" : "btn-outline-primary"}`}
+          onClick={toggleFullscreen}
+          aria-pressed={isFullscreen}
+          title={isFullscreen ? "Exit full screen (Esc)" : "Expand chart to full screen"}
+        >
+          {isFullscreen ? "Exit full screen" : "Full screen"}
+        </button>
+      </div>
+      {fullscreenError && <p role="alert">{fullscreenError}</p>}
+      <div ref={plotContainerRef} className="stock-chart-plot">
       <Plot
         data={[
           {
@@ -80,7 +128,7 @@ function StockChart({ stockData, tikcer, mode }) {
         ]}
         layout={{
           title: `Stock Price Chart for ${tikcer}`,
-          height: 800, // Adjust height as needed
+          ...chartSize,
           autosize: true, // Allow the chart to resize with the container
           showlegend: false,
           plot_bgcolor: themeColors[mode].plot_bgcolor,
@@ -107,8 +155,9 @@ function StockChart({ stockData, tikcer, mode }) {
           },
         }}
         useResizeHandler
-        style={{ width: "100%" }}
+        style={{ width: "100%", height: "100%" }}
       />
+      </div>
     </div>
   );
 }
