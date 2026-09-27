@@ -18,6 +18,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import PasswordReset from "./pages/PasswordReset";
+import ResendActivation from "./pages/ResendActivation";
 
 import StockDetails from "./pages/Home/StockDetails";
 import LiveTrading from "./pages/LiveTrading";
@@ -178,6 +179,13 @@ function App() {
                     >
                       {loginError ? "Trouble signing in? Reset your password" : "Forgot your password?"}
                     </Link>
+                    <Link
+                      className="mt-3"
+                      to={`/resend-activation?email=${encodeURIComponent(email)}`}
+                      onClick={() => setIsLoginModalOpen(false)}
+                    >
+                      Resend activation email
+                    </Link>
                   </div>
                 </div>
               )}
@@ -188,6 +196,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/resend-activation" element={<ResendActivation />} />
               <Route path="/forgot-password" element={<PasswordReset key="request" />} />
               <Route path="/reset-password/:uid/:token" element={<PasswordReset key="confirm" />} />
               <Route path="/stockDetails/:id" element={<StockDetails />} />
