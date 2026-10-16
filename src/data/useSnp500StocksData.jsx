@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import ServerURL from "./config";
+import { MARKET_STALE_TIME } from "./marketCache";
 
 const fetchSnp500Stocks = async () => {
   const response = await axios.get(`${ServerURL}/stocks/companies/`);
@@ -85,9 +86,9 @@ export const useSnp500StocksData = () => {
     queryKey: ["fetchSnp500Stocks"],
     queryFn: () => fetchSnp500Stocks(),
     placeholderData: [],
-    staleTime: 5 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
-    refetchOnWindowFocus: false,
+    staleTime: MARKET_STALE_TIME,
+    gcTime: MARKET_STALE_TIME,
+    refetchOnWindowFocus: true,
   });
   return { isLoading, error, stocks };
 };
@@ -101,9 +102,9 @@ export const useLatestTechnicals = ({ rsMin = null } = {}) => {
     queryKey: ["fetchLatestTechnicals", rsMin],
     queryFn: () => fetchLatestTechnicals(rsMin),
     placeholderData: [],
-    staleTime: 5 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
-    refetchOnWindowFocus: false,
+    staleTime: MARKET_STALE_TIME,
+    gcTime: MARKET_STALE_TIME,
+    refetchOnWindowFocus: true,
   });
 
   return { isLoading, error, technicals };
@@ -136,9 +137,9 @@ export const useLatestPrices = () => {
     queryKey: ["fetchLatestPrices"],
     queryFn: () => fetchLatestPrices(),
     placeholderData: [],
-    staleTime: 5 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
-    refetchOnWindowFocus: false,
+    staleTime: MARKET_STALE_TIME,
+    gcTime: MARKET_STALE_TIME,
+    refetchOnWindowFocus: true,
   });
 
   return { isLoading, error, prices };
@@ -165,12 +166,25 @@ export const useIndustryPerformanceRankings = ({ months = 3, country = "" } = {}
       as_of_date: null,
       lookback_date: null,
     },
-    staleTime: 10 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
-    refetchOnWindowFocus: false,
+    staleTime: MARKET_STALE_TIME,
+    gcTime: MARKET_STALE_TIME,
+    refetchOnWindowFocus: true,
   });
 
   return { isLoading, error, data };
 };
 
 // export default useSnp500StocksData;
+
+export function preloadHomeData(queryClient) {
+  return Promise.all([
+    ["fetchSnp500Stocks", fetchSnp500Stocks],
+    ["fetchLatestTechnicals", () => fetchLatestTechnicals(null)],
+    ["fetchLatestPrices", fetchLatestPrices],
+  ].map(([key, queryFn]) => queryClient.prefetchQuery({
+    queryKey: key === "fetchLatestTechnicals" ? [key, null] : [key],
+    queryFn,
+    staleTime: MARKET_STALE_TIME,
+    gcTime: MARKET_STALE_TIME,
+  })));
+}

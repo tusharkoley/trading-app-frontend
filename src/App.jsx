@@ -9,10 +9,8 @@ import ServerURL from "./data/config";
 import { Routes, Route, Link, useMatch } from "react-router-dom";
 import { DarkModeProvider } from "./DarkModeContext";
 
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./data/marketCache";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -25,16 +23,6 @@ import LiveTrading from "./pages/LiveTrading";
 import IndustryRanking from "./pages/IndustryRanking";
 // import { useDarkMode } from "./DarkModeContext";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000,
-      gcTime: 30 * 60 * 1000,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-    },
-  },
-});
 
 function App() {
   const isStockDetailsPage = useMatch("/stockDetails/:id");
