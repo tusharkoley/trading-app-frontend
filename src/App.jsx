@@ -4,6 +4,7 @@ import SideMenu from "./components/SideMenu";
 import { useEffect } from "react";
 import "./styles/Styles.scss";
 import axios from "axios";
+import { clearSession, watchIdleSession, LAST_ACTIVITY_KEY, SESSION_EVENT } from "./idleSession";
 import ServerURL from "./data/config";
 
 import { Routes, Route, Link, useMatch } from "react-router-dom";
@@ -37,8 +38,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("email");
+    clearSession();
     setIsLoggedIn(false);
     setEmail("");
   };
@@ -60,10 +60,12 @@ function App() {
       });
       // The response.data will contain the data from the server (e.g., token)
       const token = response.data.access;
+      localStorage.setItem(LAST_ACTIVITY_KEY, String(Date.now()));
       localStorage.setItem("token", token); // Store the token
       setIsLoggedIn(true);
       const loginTime = new Date().toLocaleString();
       localStorage.setItem("email", emailValue);
+      window.dispatchEvent(new Event(SESSION_EVENT));
       localStorage.setItem("lastLogin", loginTime);
       setLastLogin(loginTime);
       setIsLoginModalOpen(false);
@@ -87,13 +89,11 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-      setLoginError(null);
-    }
-  }, []);
+  useEffect(() => watchIdleSession((token, sessionEmail) => {
+    setIsLoggedIn(Boolean(token));
+    setEmail(sessionEmail);
+    if (!token) setIsLoginModalOpen(false);
+  }), []);
 
   return (
     <DarkModeProvider>

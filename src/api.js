@@ -1,5 +1,6 @@
 import axios from "axios";
 import ServerURL from "./data/config";
+import { getSessionToken } from "./idleSession";
 
 const apiClient = axios.create({
   baseURL: ServerURL,
@@ -7,7 +8,7 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const token = getSessionToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
