@@ -14,6 +14,7 @@ import {
 } from "../../../data/useSnp500StocksData";
 
 import Table from "../../../components/Table";
+import IndicatorLabel from "../../../components/IndicatorLabel";
 
 function StockDetails() {
   const { id } = useParams();
@@ -189,39 +190,39 @@ function StockDetails() {
                 <td>{technicalView.date || latestPrice?.date || "N/A"}</td>
               </tr>
               <tr>
-                <th>RS Industry:</th>
+                <th scope="row"><IndicatorLabel indicator="rs_industry">RS Industry</IndicatorLabel>:</th>
                 <td>{formatMetric(technicalView.rs_industry)}</td>
               </tr>
               <tr>
-                <th>ATR 14:</th>
+                <th scope="row"><IndicatorLabel indicator="atr_14">ATR 14</IndicatorLabel>:</th>
                 <td>{formatMetric(technicalView.atr_14)}</td>
               </tr>
               <tr>
-                <th>Historical Volatility 20:</th>
+                <th scope="row"><IndicatorLabel indicator="hist_volatility_20">Historical Volatility 20</IndicatorLabel>:</th>
                 <td>{formatMetric(technicalView.hist_volatility_20)}</td>
               </tr>
               <tr>
-                <th>VWAP 20:</th>
+                <th scope="row"><IndicatorLabel indicator="vwap_20">VWAP 20</IndicatorLabel>:</th>
                 <td>{formatMetric(technicalView.vwap_20)}</td>
               </tr>
               <tr>
-                <th>DMA 20:</th>
+                <th scope="row"><IndicatorLabel indicator="dma_20">DMA 20</IndicatorLabel>:</th>
                 <td>{formatMetric(technicalView.dma_20)}</td>
               </tr>
               <tr>
-                <th>DMA 50:</th>
+                <th scope="row"><IndicatorLabel indicator="dma_50">DMA 50</IndicatorLabel>:</th>
                 <td>{formatMetric(technicalView.dma_50)}</td>
               </tr>
               <tr>
-                <th>DMA 200:</th>
+                <th scope="row"><IndicatorLabel indicator="dma_200">DMA 200</IndicatorLabel>:</th>
                 <td>{formatMetric(technicalView.dma_200)}</td>
               </tr>
               <tr>
-                <th>Beta 252:</th>
+                <th scope="row"><IndicatorLabel indicator="beta_252">Beta 252</IndicatorLabel>:</th>
                 <td>{formatMetric(technicalView.beta_252)}</td>
               </tr>
               <tr>
-                <th>Alpha 252:</th>
+                <th scope="row"><IndicatorLabel indicator="alpha_252">Alpha 252</IndicatorLabel>:</th>
                 <td>{formatMetric(technicalView.alpha_252)}</td>
               </tr>
             </tbody>

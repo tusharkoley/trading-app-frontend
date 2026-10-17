@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { Link } from "react-router-dom";
+import IndicatorLabel from "./IndicatorLabel";
 
 import "../styles/Styles.scss";
 
@@ -48,7 +49,7 @@ function Table({
               <th key={col}>
                 {col === "RS" ? (
                   <div className="table-header-sort">
-                    <span>{col}</span>
+                    <IndicatorLabel indicator="rs_industry">{col}</IndicatorLabel>
                     <button
                       type="button"
                       className={`rs-sort-toggle rs-sort-${rsSortOrder || "off"}`}

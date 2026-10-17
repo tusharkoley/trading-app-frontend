@@ -398,3 +398,14 @@ th {
   color: red;
   margin-bottom: 10px;
 }
+
+.indicator-label[title] {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+.indicator-label:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
