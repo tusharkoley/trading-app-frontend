@@ -23,6 +23,7 @@
   --tran-05:all 0.5s ease;
 }
 
+:root[data-bs-theme="dark"],
 .dark-mode {
   // background: red;
   --body-color: #18191A;
@@ -281,8 +282,9 @@ th {
   justify-content: space-between; /* Align items to left and right */
   align-items: center; /* Vertically center items */
   padding: 10px; /* Add some padding */
-  background-color: var(--primary-color-light); /* Example background color */
-  border-bottom: 1px solid #ccc; /* Optional border */
+  background-color: var(--primary-color-light);
+  color: var(--text-color);
+  border-bottom: 1px solid var(--bs-border-color, #ccc);
   height: 50px; /* Adjust height as needed */
   width: 100%; /* Make it full width */
 }
