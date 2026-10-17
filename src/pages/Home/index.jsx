@@ -265,7 +265,7 @@ function Home() {
   const tableClass = isDarkMode ? "table-dark" : "table-primary";
   return (
     <div
-      className={`container overflow-auto ${isDarkMode ? "table_dark" : ""}`}
+      className={`market-page ${isDarkMode ? "table_dark" : ""}`}
       style={{ marginTop: "20px" }}
     >
       <div className={`row g-2 mb-3 ${isDarkMode ? "table_dark" : ""}`}>

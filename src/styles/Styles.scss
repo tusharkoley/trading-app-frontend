@@ -8,7 +8,7 @@
 
 
 :root{
-  --sidebar-width: clamp(260px, 20vw, 320px);
+  --sidebar-width: 240px;
   --body-color: #E4E9F7;
   --sidebar-color: #FFF;
   --primary-color:  #695CFE;
@@ -317,12 +317,48 @@ th {
     overflow-y: auto; /*Enable vertical scroll if content overflows*/
 }
 
-.stock-details-content {
+.wide-page-content {
     width: 100%;
     max-width: none;
     min-width: 0;
     margin-inline: 0;
+    padding-inline: 16px;
 }
+
+.market-page {
+    width: 100%;
+    min-width: 0;
+}
+
+.sidebar .menu-bar {
+    padding-inline: 0;
+}
+
+.sidebar .menu-link {
+    padding-left: 0;
+}
+
+.sidebar li .icon,
+.sidebar .moon-sun,
+.sidebar .mode .toggle-switch {
+    min-width: 44px;
+    width: 44px;
+    flex-shrink: 0;
+}
+
+.sidebar .text {
+    font-size: 18px;
+}
+
+.sidebar .profssion {
+    font-size: 14px;
+}
+
+.sidebar .image img {
+    width: 40px;
+    height: auto;
+}
+
 
 
 /* CSS for the modal */

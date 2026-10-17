@@ -61,7 +61,7 @@ function IndustryRanking() {
 
   return (
     <div
-      className={`container overflow-auto ${isDarkMode ? "table_dark" : ""}`}
+      className={`market-page ${isDarkMode ? "table_dark" : ""}`}
       style={{ marginTop: "20px" }}
     >
       <h3 className="mb-3">Industry Performance Ranking</h3>

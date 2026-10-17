@@ -26,6 +26,9 @@ import IndustryRanking from "./pages/IndustryRanking";
 
 function App() {
   const isStockDetailsPage = useMatch("/stockDetails/:id");
+  const isHomePage = useMatch("/");
+  const isIndustryRankingPage = useMatch("/industry-ranking");
+  const isWidePage = isStockDetailsPage || isHomePage || isIndustryRankingPage;
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [lastLogin, setLastLogin] = useState(localStorage.getItem("lastLogin") || "");
@@ -180,7 +183,7 @@ function App() {
             </div>
           </div>
           <SideMenu />
-          <div className={`${isStockDetailsPage ? "container-fluid stock-details-content" : "container"} overflow-auto right`}>
+          <div className={`${isWidePage ? "container-fluid wide-page-content" : "container"} overflow-auto right`}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />
