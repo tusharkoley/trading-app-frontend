@@ -100,7 +100,9 @@ table {
 }
 
 .custom-data-table tbody td:first-child {
-  background-color: inherit;
+  /* Keep the sticky symbol cell opaque and use the same base as other cells.
+     Bootstrap applies alternating row shading with its table box-shadow. */
+  background-color: var(--bs-table-bg);
 }
 
 .table-header-sort {

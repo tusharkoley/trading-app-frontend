@@ -137,7 +137,7 @@ function IndustryRanking() {
       )}
 
       <div className="table-responsive">
-        <table className={`table ${isDarkMode ? "table-dark" : "table-striped"}`}>
+        <table className={`table table-striped ${isDarkMode ? "table-dark" : ""}`}>
           <thead>
             <tr>
               <th scope="col">Rank</th>
